@@ -24,13 +24,11 @@ export default function PomodoroTimer() {
   const timerRef = useRef(null);
   const audioRef = useRef(null);
 
-  // When tab changes: reset time only (keep saved task)
   useEffect(() => {
     setSecondsLeft(durations[activeTab]);
     setIsRunning(false);
   }, [activeTab, durations]);
 
-  // Timer countdown
   useEffect(() => {
     if (isRunning) {
       timerRef.current = setInterval(() => {
@@ -39,7 +37,7 @@ export default function PomodoroTimer() {
             clearInterval(timerRef.current);
             setIsRunning(false);
             audioRef.current?.play();
-            setSavedTask('');  // Clear task at end
+            setSavedTask('');
             setTask('');
             return 0;
           }
@@ -50,7 +48,6 @@ export default function PomodoroTimer() {
     return () => clearInterval(timerRef.current);
   }, [isRunning]);
 
-  // Handlers
   const start = () => setIsRunning(true);
   const pause = () => setIsRunning(false);
   const reset = () => {
@@ -73,26 +70,26 @@ export default function PomodoroTimer() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white w-full max-w-lg rounded-2xl shadow-lg p-6 sm:p-8 space-y-6">
+    <div className="min-h-screen  flex items-center justify-center p-4">
+      <div className=" w-full max-w-2xl rounded-2xl shadow-2xl p-6 md:p-6 space-y-6">
 
         {/* Header */}
         <div className="flex items-center justify-center gap-3">
-          <FaClock className="text-3xl text-blue-800" />
-          <h1 className="text-2xl sm:text-3xl font-bold text-blue-800">
+          <FaClock className="text-4xl text-blue-800" />
+          <h1 className="text-2xl md:text-3xl font-bold text-blue-800">
             Pomodoro Timer
           </h1>
         </div>
 
         {/* Tabs */}
-        <div className="flex justify-center gap-2 sm:gap-4">
+        <div className="flex justify-center flex-wrap gap-3 md:gap-6">
           {[WORK, SHORT_BREAK, LONG_BREAK].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition
+              className={`px-5 py-2 rounded-full text-sm md:text-base font-medium transition
                 ${activeTab === tab
-                  ? 'bg-blue-800 text-white shadow'
+                  ? 'bg-blue-800 text-white shadow-lg'
                   : 'bg-blue-100 text-blue-800 hover:bg-blue-200'}
               `}
             >
@@ -103,52 +100,55 @@ export default function PomodoroTimer() {
 
         {/* Task Input or Display */}
         {!savedTask ? (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <textarea
               value={task}
               onChange={(e) => setTask(e.target.value)}
               placeholder="What are you working on?"
               rows={2}
-              className="w-full rounded-lg border border-gray-300 p-3 text-blue-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full rounded-lg border border-gray-300 p-3 md:p-4 text-blue-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             />
-            <button
-              onClick={saveTask}
-              className="bg-blue-800 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-semibold"
-            >
-              Save
-            </button>
+            <div className="flex flex-col md:flex-row md:justify-end md:space-x-4 space-y-2 md:space-y-0">
+              <button
+                onClick={saveTask}
+                className="bg-blue-800 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm md:text-base font-semibold transition"
+              >
+                Save Task
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="bg-blue-100 border border-blue-300 text-blue-800 rounded-md px-4 py-3 text-sm">
-            <strong>Current Task:</strong> {savedTask}
+          <div className="bg-blue-50 border border-blue-300 text-blue-900 rounded-lg px-5 py-4 text-base md:text-lg shadow-inner">
+            <strong className="block text-blue-800 mb-1">Current Task:</strong> 
+            {savedTask}
           </div>
         )}
 
         {/* Timer */}
-        <div className="text-6xl sm:text-7xl font-mono text-center text-blue-900">
+        <div className="text-6xl md:text-7xl font-mono text-center text-blue-900">
           {formatTime(secondsLeft)}
         </div>
 
         {/* Controls */}
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6">
           {!isRunning ? (
             <button
               onClick={start}
-              className="bg-blue-800 hover:bg-blue-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition"
+              className="bg-blue-800 hover:bg-blue-700 text-white px-10 py-3 rounded-full text-lg font-semibold transition w-full md:w-auto"
             >
               Start
             </button>
           ) : (
             <button
               onClick={pause}
-              className="bg-yellow-500 hover:bg-yellow-400 text-white px-8 py-3 rounded-full text-lg font-semibold transition"
+              className="bg-yellow-500 hover:bg-yellow-400 text-white px-10 py-3 rounded-full text-lg font-semibold transition w-full md:w-auto"
             >
               Pause
             </button>
           )}
           <button
             onClick={reset}
-            className="text-sm text-blue-500 hover:text-blue-700 underline"
+            className="text-sm md:text-base text-blue-500 hover:text-blue-700 underline"
           >
             Reset
           </button>
