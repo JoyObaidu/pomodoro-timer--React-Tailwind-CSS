@@ -2,6 +2,10 @@
 This is a simple, responsive web application built to help people stay productive using the Pomodoro Technique. The idea is to work for a set amount of time, then take short breaks to rest and recharge.
 The app has a clean interface, works well on both desktop and mobile, and makes it easy to start, pause, and reset your work sessions. It also lets you enter your current task so you can stay focused on what matters.
 
+### Screenshots
+- ![Desktop View](image.png)
+- ![Mobile view](image-1.png)
+
 ### Pain Point
 - Help people work in short, focused sessions to get more done.
 
